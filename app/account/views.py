@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.db import transaction
 from .throttling import UserBaseThrottle
 
-from .serializers import RegisterSerializer, LoginSerializer, UserBaseSerializer
+from .serializers import RegisterSerializer, LoginSerializer, UserBaseSerializer, ChangeUserToDriverSerializer
 
 
 class testJWTView(APIView):
@@ -94,3 +94,27 @@ class UpdateUserView(UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+
+
+
+class EditUserToDriverView(APIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserBaseThrottle]
+
+    def post(self, request):
+        with transaction.atomic():
+            serializer = ChangeUserToDriverSerializer(data=request.data, context={"request":request})
+            if serializer.is_valid():
+                driver_profile = serializer.save()
+                return Response({
+                    "status":"success",
+                    "message":"You Are now a driver",
+                    "driver_profile":{
+                        "vehicle":driver_profile.vehicle_type,
+                        "vehicle_plate": driver_profile.vehicle_plate
+                    }
+                }, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
