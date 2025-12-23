@@ -1,16 +1,23 @@
-from rest_framework import viewsets, status
+from rest_framework import  status
+from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
-from django.shortcuts import redirect
 from .models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db import transaction
+from .throttling import UserBaseThrottle
+
+from .serializers import RegisterSerializer, LoginSerializer, UserBaseSerializer
 
 
-from .serializers import RegisterSerializer, LoginSerializer
-
+class testJWTView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        return Response({
+            "user": request.user.username,
+            "iser_id": request.user.id
+        })
 
 
 class RegisterView(CreateAPIView):
@@ -47,3 +54,33 @@ class LoginView(GenericAPIView):
         tokens = serializer.save()
         return Response(tokens, status=status.HTTP_200_OK)
 
+
+
+
+
+class RetrieveUserView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserBaseSerializer
+    throttle_classes = [UserBaseThrottle]
+
+    def get_queryset(self):
+        return User.objects.filter(is_active=True)
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = queryset.get(pk=self.request.user.pk)
+        return obj
+
+
+
+
+
+class TestHeaderView(APIView):
+    def get(self, request):
+        
+        print("Request headers:", request.headers)
+        print("User:", request.user)
+
+        return Response({
+            "received_headers": dict(request.headers)
+        })

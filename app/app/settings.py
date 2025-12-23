@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #requirements modules
     "rest_framework",
-    'rest_framework_simplejwt',
+
 
     #apps 
     'account.apps.AccountConfig',
@@ -121,23 +121,21 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    "DEFAULT_THROTTLE_RATES": {
+        "user_base": "10/min",
+    }
 }
+
 
 
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=500),  
     'REFRESH_TOKEN_LIFETIME': timedelta(days=5),  
-    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 
 
-REST_FRAMEWORK = {
-    "DEFAULT_THROTTLE_RATES": {
-        "user_order": "10/min",  
-    }
-}
 
 
 
