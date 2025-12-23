@@ -20,6 +20,19 @@ class testJWTView(APIView):
         })
 
 
+
+class TestHeaderView(APIView):
+    def get(self, request):
+        
+        print("Request headers:", request.headers)
+        print("User:", request.user)
+
+        return Response({
+            "received_headers": dict(request.headers)
+        })
+
+
+
 class RegisterView(CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
@@ -74,13 +87,10 @@ class RetrieveUserView(RetrieveAPIView):
 
 
 
+class UpdateUserView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserBaseSerializer
+    throttle_classes = [UserBaseThrottle]
 
-class TestHeaderView(APIView):
-    def get(self, request):
-        
-        print("Request headers:", request.headers)
-        print("User:", request.user)
-
-        return Response({
-            "received_headers": dict(request.headers)
-        })
+    def get_object(self):
+        return self.request.user
