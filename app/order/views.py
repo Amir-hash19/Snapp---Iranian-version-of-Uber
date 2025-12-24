@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import OrderCreateSerializer, ListRetrieveOrderSerializer, OrderAcceptSerializer, DriverSerializer
+from .serializers import OrderCreateSerializer, ListRetrieveOrderSerializer, OrderAcceptSerializer, DriverSerializer, UserOrderDetailSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from account.throttling import UserBaseThrottle
@@ -82,3 +82,13 @@ class OrderAcceptView(generics.UpdateAPIView):
         
 
 
+
+
+class UserOrderRetrieveView(generics.RetrieveAPIView):
+    serializer_class = UserOrderDetailSerializer
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserBaseThrottle]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Order.objects.filter(user=user, status="accepted")

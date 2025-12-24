@@ -93,4 +93,25 @@ class DriverSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["phone_number", "driver_profile", "full_name"]
-         
+
+
+
+
+class UserOrderDetailSerializer(serializers.ModelSerializer):
+    driver = DriverSerializer(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = [
+            "id",
+            "origin_lat",
+            "origin_lng",
+            "destination_lat",
+            "destination_lng",
+            "distance_meters",
+            "duration_seconds",
+            "price",
+            "status",
+            "driver",
+            "created_at"
+        ]
