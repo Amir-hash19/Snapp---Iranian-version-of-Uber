@@ -67,10 +67,11 @@ Role separation is enforced at both the **authentication** and **business logic*
 ## Tech Stack
 
 * **Backend**: Django 6
-* **Authentication**: JWT (via OpenRouter Services)
+* **Authentication**: JWT (JSON WEB TOKEN)
 * **Authorization**: Role-based access control (User / Driver)
 * **Architecture**: Modular Django apps (accounts, orders)
 * **Database**: PostgreSQL (recommended), SQLite (development)
+* **well-documented**: google-style-documentation and DocString
 * **API Style**: REST
 
 ---
@@ -135,16 +136,14 @@ project-root/
 
 ## Notes
 - This project focuses on backend logic and system design rather than UI/UX.
-- Payment, maps, and real-time tracking are mocked or simplified.
 - The codebase is structured to allow future expansion.
 
 ---
 
 ## Future Improvements
-- Real-time driver-passenger matching (WebSockets)
 - Pricing and distance calculation service
-- Admin dashboard
-- Integration with real payment gateways
+- caching system for list of orders 
+- using SQlite for development and PostgreSQL for production
 - Rate limiting and monitoring
 
 ---
