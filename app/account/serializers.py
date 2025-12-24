@@ -11,7 +11,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("email", "password", "password2")
+        fields = ("wallet_balance","full_name","phone_number","email", "password", "password2")
 
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
@@ -20,8 +20,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create(
-            email=validated_data["email"]
-        )
+            email=validated_data["email"],
+            full_name=validated_data["full_name"],
+            phone_number=validated_data["phone_number"],
+            wallet_balance=validated_data["wallet_balance"]
+            )
         user.set_password(validated_data["password"])
         user.save()
         return user
@@ -100,7 +103,7 @@ class ChangeUserToDriverSerializer(serializers.Serializer):
     
     def create(self, validated_data):
         user = self.context["request"].user
-        user.role == User.DRIVER
+        user.role = User.DRIVER
         user.save()
         driver_profile = DriverProfile.objects.create(
             user=user,

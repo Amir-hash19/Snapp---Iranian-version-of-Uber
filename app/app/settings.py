@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #requirements modules
     "rest_framework",
+    "background_task",
 
 
     #apps 

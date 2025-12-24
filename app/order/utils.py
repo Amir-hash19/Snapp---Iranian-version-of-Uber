@@ -2,6 +2,7 @@ import requests
 from app.settings import ORS_API_KEY 
 
 
+
 def get_route_from_ors(origin_lat, origin_lng, dest_lat, dest_lng):
     url = "https://api.openrouteservice.org/v2/directions/driving-car"
     headers = {

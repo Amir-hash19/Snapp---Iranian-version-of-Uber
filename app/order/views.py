@@ -2,9 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import OrderCreateSerializer
-
-
+from .serializers import OrderCreateSerializer, ListOrderSerializer
+from rest_framework import generics
+from rest_framework.views import APIView
+from account.throttling import UserBaseThrottle
+from account.permissions import IsDriverPermission
+from .models import Order
 
 class OrderCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -22,3 +25,17 @@ class OrderCreateView(APIView):
                 "status_order": order.status
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+class OrderListView(generics.ListAPIView):
+    permission_classes = [IsDriverPermission]
+    serializer_class = ListOrderSerializer
+    throttle_classes = [UserBaseThrottle]
+
+    def get_queryset(self):
+        return Order.objects.filter(status="pending")
+
+    

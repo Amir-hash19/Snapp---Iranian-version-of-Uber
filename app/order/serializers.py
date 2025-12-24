@@ -44,3 +44,17 @@ class OrderCreateSerializer(serializers.Serializer):
             price=int(price),
             status=Order.PENDING
         )
+
+
+
+class ListOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["user",
+                "origin_lat",
+                "origin_lng", 
+                "destination_lat", 
+                "destination_lng",
+                "distance_meters",
+                "duration_seconds",
+                "price","created_at"]
