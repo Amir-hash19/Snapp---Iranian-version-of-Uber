@@ -49,9 +49,10 @@ class OrderCreateSerializer(serializers.Serializer):
 
 
 class ListRetrieveOrderSerializer(serializers.ModelSerializer):
+    user_full_name = serializers.SerializerMethodField()
     class Meta:
         model = Order
-        fields = ["user",
+        fields = ["user_full_name",
                 "origin_lat",
                 "origin_lng", 
                 "destination_lat", 
@@ -59,6 +60,9 @@ class ListRetrieveOrderSerializer(serializers.ModelSerializer):
                 "distance_meters",
                 "duration_seconds",
                 "price","created_at"]
+    def get_user_full_name(self, obj):
+        return obj.user.get_full_name
+
 
 
 

@@ -9,6 +9,9 @@ from account.throttling import UserBaseThrottle
 from account.permissions import IsDriverPermission, IsAssignedDriverPermission
 from .models import Order
 from django.db import transaction
+from .pagination import StandardResultSetPagination
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 class OrderCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -30,11 +33,13 @@ class OrderCreateView(APIView):
 
 
 
-
+@method_decorator(cache_page(60*10), name="dispatch")
 class OrderListView(generics.ListAPIView):
     permission_classes = [IsDriverPermission]
     serializer_class = ListRetrieveOrderSerializer
     throttle_classes = [UserBaseThrottle]
+    pagination_class = StandardResultSetPagination
+
 
     def get_queryset(self):
         return Order.objects.filter(status="pending")
@@ -92,3 +97,4 @@ class UserOrderRetrieveView(generics.RetrieveAPIView):
     def get_queryset(self):
         user = self.request.user
         return Order.objects.filter(user=user, status="accepted")
+    
