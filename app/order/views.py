@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import OrderCreateSerializer, ListOrderSerializer
+from .serializers import OrderCreateSerializer, ListRetrieveOrderSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from account.throttling import UserBaseThrottle
@@ -32,10 +32,19 @@ class OrderCreateView(APIView):
 
 class OrderListView(generics.ListAPIView):
     permission_classes = [IsDriverPermission]
-    serializer_class = ListOrderSerializer
+    serializer_class = ListRetrieveOrderSerializer
     throttle_classes = [UserBaseThrottle]
 
     def get_queryset(self):
         return Order.objects.filter(status="pending")
 
-    
+
+
+
+class OrderRetrieveView(generics.RetrieveAPIView):
+    permission_classes = [IsDriverPermission]
+    serializer_class = ListRetrieveOrderSerializer
+    throttle_classes = [UserBaseThrottle]
+
+    def get_queryset(self):
+        return Order.objects.filter(status="pending")

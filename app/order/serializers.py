@@ -47,7 +47,7 @@ class OrderCreateSerializer(serializers.Serializer):
 
 
 
-class ListOrderSerializer(serializers.ModelSerializer):
+class ListRetrieveOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ["user",
