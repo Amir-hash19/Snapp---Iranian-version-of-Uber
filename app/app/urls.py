@@ -8,7 +8,9 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Snapp Iranian Version of UBER",
       default_version='v1',
-      description= "",
+      description= "A sample Django project simulating the " \
+      "Iranian version of Uber, named Snapp, with REST API" \
+      " endpoints and Swagger documentation.",
       terms_of_service="https://amir-hash19.github.io/",
       contact=openapi.Contact(email="amirhosein.hydri1381@gmail.com"),
       license=openapi.License(name="MIT License"),
