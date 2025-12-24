@@ -1,36 +1,40 @@
-from rest_framework import  status
-from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.response import Response
-from .models import User
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.db import transaction
-from .throttling import UserBaseThrottle
+from rest_framework import status
+from rest_framework.generics import (
+    CreateAPIView,
+    GenericAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+)
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import RegisterSerializer, LoginSerializer, UserBaseSerializer, ChangeUserToDriverSerializer
+from .models import User
+from .serializers import (
+    ChangeUserToDriverSerializer,
+    LoginSerializer,
+    RegisterSerializer,
+    UserBaseSerializer,
+)
+from .throttling import UserBaseThrottle
 
 
 class testJWTView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request):
-        return Response({
-            "user": request.user.username,
-            "iser_id": request.user.id
-        })
 
+    def get(self, request):
+        return Response({"user": request.user.username, "iser_id": request.user.id})
 
 
 class TestHeaderView(APIView):
     def get(self, request):
-        
+
         print("Request headers:", request.headers)
         print("User:", request.user)
 
-        return Response({
-            "received_headers": dict(request.headers)
-        })
-
+        return Response({"received_headers": dict(request.headers)})
 
 
 class RegisterView(CreateAPIView):
@@ -44,18 +48,11 @@ class RegisterView(CreateAPIView):
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
 
-            tokens = {
-                "refresh": str(refresh),
-                "access": str(refresh.access_token)
-            }
-            return Response({
-                "user": {
-                    "id":user.id,
-                    "email":user.email
-                },
-                "tokens": tokens
-            }, status=status.HTTP_201_CREATED)
-        
+            tokens = {"refresh": str(refresh), "access": str(refresh.access_token)}
+            return Response(
+                {"user": {"id": user.id, "email": user.email}, "tokens": tokens},
+                status=status.HTTP_201_CREATED,
+            )
 
 
 class LoginView(GenericAPIView):
@@ -66,9 +63,6 @@ class LoginView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         tokens = serializer.save()
         return Response(tokens, status=status.HTTP_200_OK)
-
-
-
 
 
 class RetrieveUserView(RetrieveAPIView):
@@ -85,8 +79,6 @@ class RetrieveUserView(RetrieveAPIView):
         return obj
 
 
-
-
 class UpdateUserView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserBaseSerializer
@@ -96,31 +88,26 @@ class UpdateUserView(UpdateAPIView):
         return self.request.user
 
 
-
-
-
 class EditUserToDriverView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserBaseThrottle]
 
     def post(self, request):
         with transaction.atomic():
-            serializer = ChangeUserToDriverSerializer(data=request.data, context={"request":request})
+            serializer = ChangeUserToDriverSerializer(
+                data=request.data, context={"request": request}
+            )
             if serializer.is_valid():
                 driver_profile = serializer.save()
-                return Response({
-                    "status":"success",
-                    "message":"You Are now a driver",
-                    "driver_profile":{
-                        "vehicle":driver_profile.vehicle_type,
-                        "vehicle_plate": driver_profile.vehicle_plate
-                    }
-                }, status=status.HTTP_201_CREATED)
+                return Response(
+                    {
+                        "status": "success",
+                        "message": "You Are now a driver",
+                        "driver_profile": {
+                            "vehicle": driver_profile.vehicle_type,
+                            "vehicle_plate": driver_profile.vehicle_plate,
+                        },
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-
-

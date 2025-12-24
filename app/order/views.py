@@ -1,50 +1,56 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from .serializers import OrderCreateSerializer, ListRetrieveOrderSerializer, OrderAcceptSerializer, DriverSerializer, UserOrderDetailSerializer
-from rest_framework import generics
-from rest_framework.views import APIView
+from account.permissions import IsAssignedDriverPermission, IsDriverPermission
 from account.throttling import UserBaseThrottle
-from account.permissions import IsDriverPermission, IsAssignedDriverPermission
-from .models import Order
 from django.db import transaction
-from .pagination import StandardResultSetPagination
-from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Order
+from .pagination import StandardResultSetPagination
+from .serializers import (
+    DriverSerializer,
+    ListRetrieveOrderSerializer,
+    OrderAcceptSerializer,
+    OrderCreateSerializer,
+    UserOrderDetailSerializer,
+)
+
 
 class OrderCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = OrderCreateSerializer(data=request.data, context={"request": request})
+        serializer = OrderCreateSerializer(
+            data=request.data, context={"request": request}
+        )
         if serializer.is_valid():
             order = serializer.save()
-            return Response({
-                "status": "success",
-                "order_id": order.id,
-                "distance_meters": order.distance_meters,
-                "duration_seconds": order.duration_seconds,
-                "price": order.price,
-                "status_order": order.status
-            }, status=status.HTTP_201_CREATED)
+            return Response(
+                {
+                    "status": "success",
+                    "order_id": order.id,
+                    "distance_meters": order.distance_meters,
+                    "duration_seconds": order.duration_seconds,
+                    "price": order.price,
+                    "status_order": order.status,
+                },
+                status=status.HTTP_201_CREATED,
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-@method_decorator(cache_page(60*10), name="dispatch")
+@method_decorator(cache_page(60 * 10), name="dispatch")
 class OrderListView(generics.ListAPIView):
     permission_classes = [IsDriverPermission]
     serializer_class = ListRetrieveOrderSerializer
     throttle_classes = [UserBaseThrottle]
     pagination_class = StandardResultSetPagination
 
-
     def get_queryset(self):
         return Order.objects.filter(status="pending")
-
-
 
 
 class OrderRetrieveView(generics.RetrieveAPIView):
@@ -54,9 +60,6 @@ class OrderRetrieveView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Order.objects.filter(status="pending")
-
-
-
 
 
 class OrderAcceptView(generics.UpdateAPIView):
@@ -77,16 +80,16 @@ class OrderAcceptView(generics.UpdateAPIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
-        return Response({
-            "status":"success",
-            "message":"Order has been accepted",
-            "order_id":order.id,
-            "status_value": order.status,
-            "driver":DriverSerializer(order.driver).data if order.driver else None
-        }, status=status.HTTP_202_ACCEPTED)
-        
-
-
+        return Response(
+            {
+                "status": "success",
+                "message": "Order has been accepted",
+                "order_id": order.id,
+                "status_value": order.status,
+                "driver": DriverSerializer(order.driver).data if order.driver else None,
+            },
+            status=status.HTTP_202_ACCEPTED,
+        )
 
 
 class UserOrderRetrieveView(generics.RetrieveAPIView):
@@ -97,4 +100,3 @@ class UserOrderRetrieveView(generics.RetrieveAPIView):
     def get_queryset(self):
         user = self.request.user
         return Order.objects.filter(user=user, status="accepted")
-    

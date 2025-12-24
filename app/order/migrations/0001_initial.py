@@ -15,23 +15,74 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('origin_lat', models.DecimalField(decimal_places=6, max_digits=9)),
-                ('origin_lng', models.DecimalField(decimal_places=6, max_digits=9)),
-                ('destination_lat', models.DecimalField(decimal_places=6, max_digits=9)),
-                ('destination_lng', models.DecimalField(decimal_places=6, max_digits=9)),
-                ('distance_meters', models.PositiveIntegerField()),
-                ('duration_seconds', models.PositiveIntegerField()),
-                ('price', models.PositiveIntegerField()),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('started', 'Started'), ('finished', 'Finished'), ('canceled', 'Canceled')], db_index=True, default='pending', max_length=10)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('driver', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='assigned_orders', to=settings.AUTH_USER_MODEL)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("origin_lat", models.DecimalField(decimal_places=6, max_digits=9)),
+                ("origin_lng", models.DecimalField(decimal_places=6, max_digits=9)),
+                (
+                    "destination_lat",
+                    models.DecimalField(decimal_places=6, max_digits=9),
+                ),
+                (
+                    "destination_lng",
+                    models.DecimalField(decimal_places=6, max_digits=9),
+                ),
+                ("distance_meters", models.PositiveIntegerField()),
+                ("duration_seconds", models.PositiveIntegerField()),
+                ("price", models.PositiveIntegerField()),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("accepted", "Accepted"),
+                            ("started", "Started"),
+                            ("finished", "Finished"),
+                            ("canceled", "Canceled"),
+                        ],
+                        db_index=True,
+                        default="pending",
+                        max_length=10,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "driver",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="assigned_orders",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="orders",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'indexes': [models.Index(fields=['user'], name='order_order_user_id_a7f1ea_idx'), models.Index(fields=['created_at'], name='order_order_created_ffede0_idx')],
+                "indexes": [
+                    models.Index(
+                        fields=["user"], name="order_order_user_id_a7f1ea_idx"
+                    ),
+                    models.Index(
+                        fields=["created_at"], name="order_order_created_ffede0_idx"
+                    ),
+                ],
             },
         ),
     ]
