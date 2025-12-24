@@ -2,12 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import OrderCreateSerializer, ListRetrieveOrderSerializer
+from .serializers import OrderCreateSerializer, ListRetrieveOrderSerializer, OrderAcceptSerializer, DriverSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from account.throttling import UserBaseThrottle
-from account.permissions import IsDriverPermission
+from account.permissions import IsDriverPermission, IsAssignedDriverPermission
 from .models import Order
+from django.db import transaction
 
 class OrderCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -48,3 +49,36 @@ class OrderRetrieveView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Order.objects.filter(status="pending")
+
+
+
+
+
+class OrderAcceptView(generics.UpdateAPIView):
+    permission_classes = [IsDriverPermission]
+    serializer_class = OrderAcceptSerializer
+    queryset = Order.objects.all()
+
+    def patch(self, request, *args, **kwargs):
+        order = self.get_object()
+
+        self.check_object_permissions(request, order)
+
+        with transaction.atomic():
+            if not order.driver:
+                order.driver = request.user
+                order.save()
+            serializer = self.get_serializer(order, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+        return Response({
+            "status":"success",
+            "message":"Order has been accepted",
+            "order_id":order.id,
+            "status_value": order.status,
+            "driver":DriverSerializer(order.driver).data if order.driver else None
+        }, status=status.HTTP_202_ACCEPTED)
+        
+
+

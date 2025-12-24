@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .utils import get_route_from_ors
 from .models import Order
+from account.models import DriverProfile, User
 
 
 
@@ -58,3 +59,38 @@ class ListRetrieveOrderSerializer(serializers.ModelSerializer):
                 "distance_meters",
                 "duration_seconds",
                 "price","created_at"]
+
+
+
+
+
+class OrderAcceptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["status"]
+    
+    def validate_status(self, value):
+        order = self.instance
+        if order.status != Order.PENDING:
+            raise serializers.ValidationError("Only pending orders can be accepted.")
+        if value != Order.ACCEPTED:
+            raise serializers.ValidationError("only status 'accepted' can be set")
+        return value
+
+
+
+class DriverProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DriverProfile
+        fields = ["vehicle_type", "vehicle_plate", "is_available", "created_at"]
+
+
+
+
+class DriverSerializer(serializers.ModelSerializer):
+    driver_profile = DriverProfileSerializer()
+
+    class Meta:
+        model = User
+        fields = ["phone_number", "driver_profile", "full_name"]
+         
