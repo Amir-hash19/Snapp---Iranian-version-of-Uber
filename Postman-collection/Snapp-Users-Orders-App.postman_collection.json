@@ -1,0 +1,538 @@
+{
+	"info": {
+		"_postman_id": "3afe5834-98ee-4e55-a367-bdd43e25b60f",
+		"name": "Snapp-Users-App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42911537"
+	},
+	"item": [
+		{
+			"name": "sign-up user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"admin@admin.com\",\n    \"password\":\"amir112233\",\n    \"password2\":\"amir112233\",\n    \"phone_number\":\"09966935704\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/sign-up/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"sign-up",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login-user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"admin@admin.com\",\n    \"password\":\"amir112233\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test-headers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NTM0ODM3LCJpYXQiOjE3NjY1MDQ4MzcsImp0aSI6ImIzOWFkOWM3NmQyNzRhZWY4ZTMyMGY2YmZhY2QxOTExIiwidXNlcl9pZCI6IjEifQ.z4q3Qea5gASqL6fCjUlCuGqeQkIEK_eOJC1rK0fZzRY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"admin@admin.com\",\n    \"password\":\"amir112233\"\n\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/test/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"test",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve-user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NTM3NjMyLCJpYXQiOjE3NjY1MDc2MzIsImp0aSI6IjI0NGVjNmJlZGU0NDQ4YmQ4YWY3NmFjYWI0MWFiNTMxIiwidXNlcl9pZCI6IjEifQ.HgIIkGW2yeyml6yCjz-P_SEjJaMdA_hTrQImFxjZ9Bc",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/you/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"you",
+						""
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NTM3NjMyLCJpYXQiOjE3NjY1MDc2MzIsImp0aSI6IjI0NGVjNmJlZGU0NDQ4YmQ4YWY3NmFjYWI0MWFiNTMxIiwidXNlcl9pZCI6IjEifQ.HgIIkGW2yeyml6yCjz-P_SEjJaMdA_hTrQImFxjZ9Bc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"wallet_balance\":100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/you/edit/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"you",
+						"edit",
+						""
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-to-driver change",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NTk5ODQzLCJpYXQiOjE3NjY1Njk4NDMsImp0aSI6IjM5YThhMjc4MGQwYjRiMjk4OWFiMTcxYzUxMTRkYjZhIiwidXNlcl9pZCI6IjcifQ.vIzYkeV28zfd1ial2ikOuWC-wc_Sib4NddwCwKtquN8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vehicle_type\": \"206 type 5 \",\n    \"vehicle_plate\": \"CBA123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/you/register-driver/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"you",
+						"register-driver",
+						""
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "request-ors api",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NTkyNTYxLCJpYXQiOjE3NjY1NjI1NjEsImp0aSI6ImEzNmVmNmYwOTQ5YzQ2OWY5OWMzM2I4NTUzZWZjZmQ4IiwidXNlcl9pZCI6IjEifQ.DeK_hSE3a0PDNvwcMYgOij1sAMHmKAM4mJfb-nFrxAs",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImE1Njg4YWFmNjFlMDQ2OTg5YmM3YWQ3NjU5OWYwZjIzIiwiaCI6Im11cm11cjY0In0=",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"origin_lat\": 35.806780,\n  \"origin_lng\": 51.428783,\n  \"destination_lat\": 35.812932,\n  \"destination_lng\": 51.450965\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/order/create/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"create",
+						""
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ORS-test",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImE1Njg4YWFmNjFlMDQ2OTg5YmM3YWQ3NjU5OWYwZjIzIiwiaCI6Im11cm11cjY0In0=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"coordinates\": [\n    [51.428783, 35.806780],\n    [51.450965, 35.812932]\n  ],\n  \"instructions\": false\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.openrouteservice.org/v2/directions/driving-car\n",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openrouteservice",
+						"org"
+					],
+					"path": [
+						"v2",
+						"directions",
+						"driving-car\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list-order for driver",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NjA2NTEzLCJpYXQiOjE3NjY1NzY1MTMsImp0aSI6IjFiNzEzZDQ2YmQ5YTQwNTc4YWU3OWE4OTEwYjE1MzU2IiwidXNlcl9pZCI6IjcifQ.N02IM4vaFX-YxhXAc0A5dMIN8jc_RIceZZhYI6cSaF8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vehicle_type\": \"car\",\n    \"vehicle_plate\": \"ABC123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/orders/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"orders",
+						""
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve-order by driver",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NjA2NTEzLCJpYXQiOjE3NjY1NzY1MTMsImp0aSI6IjFiNzEzZDQ2YmQ5YTQwNTc4YWU3OWE4OTEwYjE1MzU2IiwidXNlcl9pZCI6IjcifQ.N02IM4vaFX-YxhXAc0A5dMIN8jc_RIceZZhYI6cSaF8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vehicle_type\": \"car\",\n    \"vehicle_plate\": \"ABC123\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/order/3",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"3"
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accept-order-by-driver",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NTk5ODQzLCJpYXQiOjE3NjY1Njk4NDMsImp0aSI6IjM5YThhMjc4MGQwYjRiMjk4OWFiMTcxYzUxMTRkYjZhIiwidXNlcl9pZCI6IjcifQ.vIzYkeV28zfd1ial2ikOuWC-wc_Sib4NddwCwKtquN8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\":\"accepted\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/order/1/accept/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"1",
+						"accept",
+						""
+					],
+					"query": [
+						{
+							"key": "Autho",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieve-order- by user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY2NjA1ODgzLCJpYXQiOjE3NjY1NzU4ODMsImp0aSI6ImU5NmM5OWFmYzc5OTQ2MzZhZjlhYTQxM2U5NGZiNmU3IiwidXNlcl9pZCI6IjgifQ.OF2F-5D4CNtW63RiWmwBDtwzvB0cRVUDDTKycRLtVKY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"admin@admin.com\",\n    \"password\":\"amir112233\",\n    \"password2\":\"amir112233\",\n    \"phone_number\":\"09966935704\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/order/3/status-accept",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"order",
+						"3",
+						"status-accept"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
