@@ -93,6 +93,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class DriverProfile(models.Model):
+
+    """
+    this class represents the profile of a driver in the system.
+    It includes fields for the user (one-to-one relationship with User model),
+    vehicle type, vehicle plate, availability status, verification status, and creation timestamp.
+    """
+
     user = models.OneToOneField(
         to=User, on_delete=models.CASCADE, related_name="driver_profile"
     )

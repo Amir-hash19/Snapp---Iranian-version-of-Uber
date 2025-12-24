@@ -22,6 +22,9 @@ from .throttling import UserBaseThrottle
 
 
 class testJWTView(APIView):
+
+    """this endpoint test jwt token and decode it"""
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -29,6 +32,12 @@ class testJWTView(APIView):
 
 
 class TestHeaderView(APIView):
+    
+    """
+    This endpoint is useful for testing headers sent by client
+    It returns the received headers in the response.
+    """
+
     def get(self, request):
 
         print("Request headers:", request.headers)
@@ -38,6 +47,34 @@ class TestHeaderView(APIView):
 
 
 class RegisterView(CreateAPIView):
+
+    """
+    This endpoint allows users to register by providing necessary details.
+    Upon successful registration, it returns the user ID and JWT tokens.
+    args:
+        wallet_balance (decimal): Initial wallet balance for the user
+        full_name (str): Full name of the user
+        phone_number (str): Phone number of the user
+        email (str): Email address of the user
+        password (str): Password for the user account
+        password2 (str): Confirmation of the password
+    returns:    
+        This endpoint returns: a dictionary containing user ID and JWT tokens
+    exceptions:
+        Raises ValidationError if the provided data is invalid or passwords do not match.
+    example out put:
+        {
+            "user": {
+                "id": 1,
+                "email": "test@test.com",
+                "full_name": "John Doe",
+                "phone_number": "09123456789",
+                "wallet_balance": 1000
+            },
+            "tokens": {
+                "refresh": "refresh_token_string", 
+    """
+
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
@@ -56,6 +93,22 @@ class RegisterView(CreateAPIView):
 
 
 class LoginView(GenericAPIView):
+    """
+    In this endpoint, users can log in by providing their email and password.
+    Upon successful authentication, it returns JWT tokens for the user.
+    args:
+        email (str): email of the user
+        password (str): password of the user
+    returns:    
+        This endpoint returns: a dictionary containing refresh and access tokens
+    exceptions:
+        Raises ValidationError if the provided credentials are invalid.
+    example out put:
+        {
+            "refresh": "refresh_token_string",
+            "access": "access_token_string"
+        }        
+    """
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
@@ -66,6 +119,24 @@ class LoginView(GenericAPIView):
 
 
 class RetrieveUserView(RetrieveAPIView):
+
+    """
+    In this endpoint, authenticated users can retrieve their own user details.
+    args:
+        None
+    returns:    
+        This endpoint returns: User object of the authenticated user
+        exceptions:
+        Raises PermissionDenied if the user is not authenticated.
+    example out put:
+        {
+            "id": 1,
+            "email": "test@test.com",
+            "full_name": "John Doe",
+            "phone_number": "09123456789",
+            "wallet_balance": 1000
+        }
+        """
     permission_classes = [IsAuthenticated]
     serializer_class = UserBaseSerializer
     throttle_classes = [UserBaseThrottle]
@@ -80,6 +151,26 @@ class RetrieveUserView(RetrieveAPIView):
 
 
 class UpdateUserView(UpdateAPIView):
+
+    """endpoint for authenticated users to update their own user details.
+    args:
+        wallet_balance (decimal, optional): Updated wallet balance for the user
+        full_name (str, optional): Updated full name of the user
+        phone_number (str, optional): Updated phone number of the user
+        email (str, optional): Updated email address of the user
+    returns:    
+        This endpoint returns: Updated User object of the authenticated user
+    exceptions:
+        Raises PermissionDenied if the user is not authenticated.
+    example out put:
+        {
+            "id": 1,
+            "email":    "test@test.com",}
+            "full_name": "John Doe",
+            "phone_number": "09123456789",
+            "wallet_balance": 1000
+        }
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = UserBaseSerializer
     throttle_classes = [UserBaseThrottle]
@@ -89,6 +180,25 @@ class UpdateUserView(UpdateAPIView):
 
 
 class EditUserToDriverView(APIView):
+
+    """endpoint for authenticated users to change their role to driver.
+    args:
+        vehicle_type (str): Type of the vehicle
+        vehicle_plate (str): Vehicle plate number
+    returns:    
+        This endpoint returns: a DriverProfile object
+    exceptions:
+        Raises PermissionDenied if the user is not authenticated or is already a driver.
+    example out put:
+        {
+            "status": "success",
+            "message": "You Are now a driver",
+            "driver_profile": {
+                "vehicle": "Car",
+                "vehicle_plate": "ABC123"
+            }
+        }
+    """
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserBaseThrottle]
 

@@ -7,6 +7,30 @@ from .models import DriverProfile, User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+
+    """
+    endpoint for user registration
+    args:
+        wallet_balance (decimal): Initial wallet balance for the user
+        full_name (str): Full name of the user
+        phone_number (str): Phone number of the user
+        email (str): Email address of the user
+        password (str): Password for the user account
+        password2 (str): Confirmation of the password
+    returns:    
+        This endpoint returns: a User object
+    exceptions:
+        Raises ValidationError if the password fields do not match.
+    example out put:
+        {
+            "wallet_balance": "100.00", 
+            "full_name": "John Doe",
+            "phone_number": "1234567890",
+            "email": "john@example.com",
+            "password": "securepassword",
+            "password2": "securepassword"
+        }
+    """
     password = serializers.CharField(
         write_only=True, required=True, validators=[validate_password]
     )
@@ -43,6 +67,22 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
+    """endpoint for user login using email and password
+    args:
+        email (str): email of the user
+        password (str): password of the user
+    returns:    
+        This endpoint returns: a dictionary containing JWT tokens and success message
+    exceptions:
+        Raises ValidationError if the provided credentials are invalid.
+    example out put:
+        {
+            "refresh": "refresh_token_string",
+            "access": "access_token_string",
+            "message": "Login Successfully",
+            "status": 200
+        }        
+    """
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
@@ -84,6 +124,9 @@ class UserBaseSerializer(serializers.ModelSerializer):
 
 
 class UserDriverSerializer(serializers.ModelSerializer):
+
+    """endpoint to retrieve user details along with role field"""
+
     class Meta:
         model = User
         fields = [
@@ -98,6 +141,18 @@ class UserDriverSerializer(serializers.ModelSerializer):
 
 
 class ChangeUserToDriverSerializer(serializers.Serializer):
+    """
+    This serializer is used to change a user to a driver.
+    It requires vehicle_type and vehicle_plate fields.
+    args:
+        vehicle_type (str): Type of the vehicle
+        vehicle_plate (str): Vehicle plate number
+    returns:    
+        This endpoint returns: a DriverProfile object
+    exceptions:
+        Raises ValidationError if the user is already a driver or if a DriverProfile already exists for the user.
+
+    """
     vehicle_type = serializers.CharField(max_length=225)
     vehicle_plate = serializers.CharField(max_length=20)
 
