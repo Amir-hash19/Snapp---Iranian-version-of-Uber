@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # requirements modules
     "rest_framework",
     "background_task",
+    "drf_yasg",
     # apps
     "account.apps.AccountConfig",
     "order.apps.OrderConfig",
