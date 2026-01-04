@@ -3,6 +3,10 @@ from django.urls import include, path, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from account.views import health_check
+
+
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -23,8 +27,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("account.urls")),
-    path("api/", include("order.urls")),
+    path("api/account/", include("account.urls")),
+    path("api/order/", include("order.urls")),
+
+    path("", health_check, name="health check endpoint"),
 
     #Only for developer 
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

@@ -13,7 +13,7 @@ from .views import (
     TestHeaderView,
     UpdateUserView,
     testJWTView,
-    health_check
+    
 )
 
 urlpatterns = [
@@ -31,7 +31,4 @@ urlpatterns = [
     path("token-get/", TokenObtainPairView.as_view()),
     path("verify-token/", TokenVerifyView.as_view(), name="token-verify"),
 
-
-
-    path("", health_check, name="health-check")
 ]
