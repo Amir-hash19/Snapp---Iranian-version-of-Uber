@@ -24,7 +24,6 @@ from .throttling import UserBaseThrottle
 
 
 class testJWTView(APIView):
-
     """this endpoint test jwt token and decode it"""
 
     permission_classes = [IsAuthenticated]
@@ -34,7 +33,6 @@ class testJWTView(APIView):
 
 
 class TestHeaderView(APIView):
-    
     """
     This endpoint is useful for testing headers sent by client
     It returns the received headers in the response.
@@ -49,7 +47,6 @@ class TestHeaderView(APIView):
 
 
 class RegisterView(CreateAPIView):
-
     """
     This endpoint allows users to register by providing necessary details.
     Upon successful registration, it returns the user ID and JWT tokens.
@@ -60,7 +57,7 @@ class RegisterView(CreateAPIView):
         email (str): Email address of the user
         password (str): Password for the user account
         password2 (str): Confirmation of the password
-    returns:    
+    returns:
         This endpoint returns: a dictionary containing user ID and JWT tokens
     exceptions:
         Raises ValidationError if the provided data is invalid or passwords do not match.
@@ -74,7 +71,7 @@ class RegisterView(CreateAPIView):
                 "wallet_balance": 1000
             },
             "tokens": {
-                "refresh": "refresh_token_string", 
+                "refresh": "refresh_token_string",
     """
 
     serializer_class = RegisterSerializer
@@ -101,7 +98,7 @@ class LoginView(GenericAPIView):
     args:
         email (str): email of the user
         password (str): password of the user
-    returns:    
+    returns:
         This endpoint returns: a dictionary containing refresh and access tokens
     exceptions:
         Raises ValidationError if the provided credentials are invalid.
@@ -109,8 +106,9 @@ class LoginView(GenericAPIView):
         {
             "refresh": "refresh_token_string",
             "access": "access_token_string"
-        }        
+        }
     """
+
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
@@ -121,12 +119,11 @@ class LoginView(GenericAPIView):
 
 
 class RetrieveUserView(RetrieveAPIView):
-
     """
     In this endpoint, authenticated users can retrieve their own user details.
     args:
         None
-    returns:    
+    returns:
         This endpoint returns: User object of the authenticated user
         exceptions:
         Raises PermissionDenied if the user is not authenticated.
@@ -138,7 +135,8 @@ class RetrieveUserView(RetrieveAPIView):
             "phone_number": "09123456789",
             "wallet_balance": 1000
         }
-        """
+    """
+
     permission_classes = [IsAuthenticated]
     serializer_class = UserBaseSerializer
     throttle_classes = [UserBaseThrottle]
@@ -153,14 +151,13 @@ class RetrieveUserView(RetrieveAPIView):
 
 
 class UpdateUserView(UpdateAPIView):
-
     """endpoint for authenticated users to update their own user details.
     args:
         wallet_balance (decimal, optional): Updated wallet balance for the user
         full_name (str, optional): Updated full name of the user
         phone_number (str, optional): Updated phone number of the user
         email (str, optional): Updated email address of the user
-    returns:    
+    returns:
         This endpoint returns: Updated User object of the authenticated user
     exceptions:
         Raises PermissionDenied if the user is not authenticated.
@@ -173,6 +170,7 @@ class UpdateUserView(UpdateAPIView):
             "wallet_balance": 1000
         }
     """
+
     permission_classes = [IsAuthenticated]
     serializer_class = UserBaseSerializer
     throttle_classes = [UserBaseThrottle]
@@ -182,12 +180,11 @@ class UpdateUserView(UpdateAPIView):
 
 
 class EditUserToDriverView(APIView):
-
     """endpoint for authenticated users to change their role to driver.
     args:
         vehicle_type (str): Type of the vehicle
         vehicle_plate (str): Vehicle plate number
-    returns:    
+    returns:
         This endpoint returns: a DriverProfile object
     exceptions:
         Raises PermissionDenied if the user is not authenticated or is already a driver.
@@ -201,6 +198,7 @@ class EditUserToDriverView(APIView):
             }
         }
     """
+
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserBaseThrottle]
 
@@ -225,21 +223,16 @@ class EditUserToDriverView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
-
 @api_view(["GET"])
 def health_check(request):
+    """this endpoint is just a health checker"""
 
-    """ this endpoint is just a health checker """
-    
     return Response(
         {
-            "status":"Ok",
-            "service":"django-rest-api",
-            "version":"1.0.0",
-            "timestamp":now(),
+            "status": "Ok",
+            "service": "django-rest-api",
+            "version": "1.0.0",
+            "timestamp": now(),
         },
-        status=status.HTTP_200_OK
+        status=status.HTTP_200_OK,
     )

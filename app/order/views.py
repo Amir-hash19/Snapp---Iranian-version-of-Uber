@@ -20,7 +20,6 @@ from .serializers import (
 
 
 class OrderCreateView(APIView):
-    
     """
     endpoint for creating a new order
     args:
@@ -40,6 +39,7 @@ class OrderCreateView(APIView):
             "destination_lng": "51.4890"
         }
     """
+
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -64,12 +64,11 @@ class OrderCreateView(APIView):
 
 @method_decorator(cache_page(60 * 10), name="dispatch")
 class OrderListView(generics.ListAPIView):
-
     """
     endpoint for listing all pending orders for drivers.
     args:
         None
-    returns:    
+    returns:
         This endpoint returns: a list of pending Order objects
     exceptions:
         Raises PermissionDenied if the user is not a driver.
@@ -99,8 +98,8 @@ class OrderRetrieveView(generics.RetrieveAPIView):
     endpoint for retrieving details of a specific pending order for drivers.
     args:
         order_id (int): ID of the order to retrieve
-    returns:    
-        This endpoint returns: details of the specified Order object 
+    returns:
+        This endpoint returns: details of the specified Order object
         exceptions:
         Raises PermissionDenied if the user is not a driver.
     example out put:
@@ -112,6 +111,7 @@ class OrderRetrieveView(generics.RetrieveAPIView):
             "destination_lng": "51.4890"
         }
     """
+
     permission_classes = [IsDriverPermission]
     serializer_class = ListRetrieveOrderSerializer
     throttle_classes = [UserBaseThrottle]
@@ -124,7 +124,7 @@ class OrderAcceptView(generics.UpdateAPIView):
     """Endpoint for drivers to accept a pending order.
     args:
         order_id (int): ID of the order to accept
-    returns:    
+    returns:
         This endpoint returns: details of the accepted Order object along with driver information
     exceptions:
         Raises PermissionDenied if the user is not a driver or if the order is not pending.
@@ -134,7 +134,8 @@ class OrderAcceptView(generics.UpdateAPIView):
             "message": "Order has been accepted",
             "order_id": 1,
         }
-        """
+    """
+
     permission_classes = [IsDriverPermission]
     serializer_class = OrderAcceptSerializer
     queryset = Order.objects.all()
@@ -165,17 +166,17 @@ class OrderAcceptView(generics.UpdateAPIView):
 
 
 class UserOrderRetrieveView(generics.RetrieveAPIView):
-
     """
     endpoint for users to retrieve details of their accepted orders.
     args:
         None
-    returns:    
+    returns:
         This endpoint returns: a list of accepted Order objects for the authenticated user
     exceptions:
         Raises PermissionDenied if the user is not authenticated.
-        
+
     """
+
     serializer_class = UserOrderDetailSerializer
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserBaseThrottle]

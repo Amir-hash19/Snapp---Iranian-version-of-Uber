@@ -7,7 +7,6 @@ from .models import DriverProfile, User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-
     """
     endpoint for user registration
     args:
@@ -17,13 +16,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         email (str): Email address of the user
         password (str): Password for the user account
         password2 (str): Confirmation of the password
-    returns:    
+    returns:
         This endpoint returns: a User object
     exceptions:
         Raises ValidationError if the password fields do not match.
     example out put:
         {
-            "wallet_balance": "100.00", 
+            "wallet_balance": "100.00",
             "full_name": "John Doe",
             "phone_number": "1234567890",
             "email": "john@example.com",
@@ -31,6 +30,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             "password2": "securepassword"
         }
     """
+
     password = serializers.CharField(
         write_only=True, required=True, validators=[validate_password]
     )
@@ -71,7 +71,7 @@ class LoginSerializer(serializers.Serializer):
     args:
         email (str): email of the user
         password (str): password of the user
-    returns:    
+    returns:
         This endpoint returns: a dictionary containing JWT tokens and success message
     exceptions:
         Raises ValidationError if the provided credentials are invalid.
@@ -81,8 +81,9 @@ class LoginSerializer(serializers.Serializer):
             "access": "access_token_string",
             "message": "Login Successfully",
             "status": 200
-        }        
+        }
     """
+
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
@@ -124,7 +125,6 @@ class UserBaseSerializer(serializers.ModelSerializer):
 
 
 class UserDriverSerializer(serializers.ModelSerializer):
-
     """endpoint to retrieve user details along with role field"""
 
     class Meta:
@@ -147,12 +147,13 @@ class ChangeUserToDriverSerializer(serializers.Serializer):
     args:
         vehicle_type (str): Type of the vehicle
         vehicle_plate (str): Vehicle plate number
-    returns:    
+    returns:
         This endpoint returns: a DriverProfile object
     exceptions:
         Raises ValidationError if the user is already a driver or if a DriverProfile already exists for the user.
 
     """
+
     vehicle_type = serializers.CharField(max_length=225)
     vehicle_plate = serializers.CharField(max_length=20)
 

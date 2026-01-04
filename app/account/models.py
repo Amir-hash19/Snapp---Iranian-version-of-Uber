@@ -93,7 +93,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class DriverProfile(models.Model):
-
     """
     this class represents the profile of a driver in the system.
     It includes fields for the user (one-to-one relationship with User model),

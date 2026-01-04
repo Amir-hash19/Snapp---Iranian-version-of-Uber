@@ -4,12 +4,11 @@ from django.db import models
 
 
 class Order(models.Model):
-
     """
     Model representing an order in the Snapp application.
     It includes fields for the user who created the order, the assigned driver,
     origin and destination coordinates, distance, duration, price, status, and creation timestamp.
-    
+
     """
 
     PENDING = "pending"
