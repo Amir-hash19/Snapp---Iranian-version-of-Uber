@@ -9,6 +9,8 @@ from rest_framework.generics import (
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from django.utils.timezone import now
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
@@ -221,3 +223,23 @@ class EditUserToDriverView(APIView):
                     status=status.HTTP_201_CREATED,
                 )
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+@api_view(["GET"])
+def health_check(request):
+
+    """ this endpoint is just a health checker """
+    
+    return Response(
+        {
+            "status":"Ok",
+            "service":"django-rest-api",
+            "version":"1.0.0",
+            "timestamp":now(),
+        },
+        status=status.HTTP_200_OK
+    )
