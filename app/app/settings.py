@@ -32,8 +32,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     # apps
-    "app.account.apps.AccountConfig",
-    "app.order.apps.OrderConfig",
+    "account.apps.AccountConfig",
+    "order.apps.OrderConfig",
 ]
 
 MIDDLEWARE = [
