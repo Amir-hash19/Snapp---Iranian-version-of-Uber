@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # requirements modules
     "rest_framework",
-    "background_task",
     "drf_yasg",
     # apps
     "account.apps.AccountConfig",
