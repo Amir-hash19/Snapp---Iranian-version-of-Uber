@@ -27,7 +27,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/account/", include("account.urls")),
-    path("api/order/", include("order.urls")),
+    path("api/", include("order.urls")),
     path("", health_check, name="health check endpoint"),
     # Only for developer
     re_path(
