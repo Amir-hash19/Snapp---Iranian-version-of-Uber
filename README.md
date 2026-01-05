@@ -107,7 +107,7 @@ Role separation is enforced at both the **authentication** and **business logic*
 ### Endpoint
 
 ```
-POST /api/orders/create/
+POST /api/order/create/
 ```
 
 ### Authentication
