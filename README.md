@@ -3,6 +3,9 @@
   <img src="assets/snapp.png" alt="Snapp / Uber Clone Driver" width="800">
 </p>
 
+
+
+
 ## Project Overview
 
 This project is a **Snapp / Uber Clone** built for educational and architectural practice purposes. The goal is to simulate the core functionality of a ride-hailing platform with a clear separation of concerns, scalable design, and role-based access control.
@@ -34,6 +37,13 @@ The platform supports two distinct roles:
 Role separation is enforced at both the **authentication** and **business logic** levels to ensure clean access control and predictable behavior across the system.
 
 ---
+<figure align="center">
+  <img src="assets/test-order-api.gif" alt="Test User Account creating and Creating an Order endpoints">
+  <figcaption>Test User Account creating and Creating an Order endpoints</figcaption>
+</figure>
+
+
+
 
 ## Features
 
@@ -75,6 +85,12 @@ Role separation is enforced at both the **authentication** and **business logic*
 * **API Style**: REST
 
 ---
+
+<figure align="center">
+  <img src="assets/driver-role-test-api.gif" alt="Test Driver role permission and listing order endpoints">
+  <figcaption>Test User Account creating and Creating an Order endpoints</figcaption>
+</figure>
+
 
 ## API Endpoints (Sample)
 
