@@ -10,3 +10,7 @@ db.sqlite3
 # Django
 __pycache__/
 *.pyc
+
+
+# data base
+postgres/data/
