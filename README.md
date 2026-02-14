@@ -1,4 +1,5 @@
 # Snapp / Uber Clone
+
 <p align="center">
   <img src="assets/snapp.png" alt="Snapp / Uber Clone Driver" width="800">
 </p>
@@ -81,7 +82,7 @@ Role separation is enforced at both the **authentication** and **business logic*
 * **Authorization**: Role-based access control (User / Driver)
 * **Architecture**: Modular Django apps (accounts, orders)
 * **Database**: PostgreSQL (recommended), SQLite (development)
-* **well-documented**: google-style-documentation and DocString
+* **Well-documented**: Google-style documentation and DocString
 * **API Style**: REST
 
 ---
@@ -101,20 +102,66 @@ Role separation is enforced at both the **authentication** and **business logic*
 | POST   | /api/sign-up/       | Register user or driver | Public        |
 | POST   | /api/login/         | Login and receive JWT   | Public        |
 | GET    | /api/you/           | Get user profile        | User / Driver |
-| GET    | /api/you/edit/      | edit user profile       | User / Driver |
-| GET    | /api/verify-token/  | check user token        | User / Driver |
-| GET    | /api/refresh-token/ | get token for user      | User / Driver |
+| GET    | /api/you/edit/      | Edit user profile       | User / Driver |
+| GET    | /api/verify-token/  | Check user token        | User / Driver |
+| GET    | /api/refresh-token/ | Get token for user      | User / Driver |
 
 ### Orders / Trips (orders)
 
-| Method | Endpoint                   | Description               | Role          |
-| ------ | -------------------------- | ------------------------- | ------------- |
-| POST   | /api/orders/create/        | Create ride request       | User          |
-| GET    | /api/orders/               | List drivers  requests    | Driver        |
-| POST   | /api/orders/{id}/          | get a ride                | Driver        |
-| POST   | /api/orders/{id}/accept/   | Accept ride               | Driver        |
-| POST   | /api/order/{id}/status/... | Start trip                | Driver        |
+| Method | Endpoint                   | Description           | Role   |
+| ------ | -------------------------- | --------------------- | ------ |
+| POST   | /api/orders/create/        | Create ride request   | User   |
+| GET    | /api/orders/               | List drivers requests | Driver |
+| POST   | /api/orders/{id}/          | Get a ride            | Driver |
+| POST   | /api/orders/{id}/accept/   | Accept ride           | Driver |
+| POST   | /api/order/{id}/status/... | Start trip            | Driver |
 
+---
+
+## 📦 API Example – Create Order
+
+### Endpoint
+
+```
+POST /api/order/create/
+```
+
+### Authentication
+
+* JWT Bearer Token required
+* Role: User (Passenger)
+
+### Request Body
+
+```json
+{
+  "origin_lat": "35.6892",
+  "origin_lng": "51.3890",
+  "destination_lat": "35.7892",
+  "destination_lng": "51.4890"
+}
+```
+
+### Successful Response (201 Created)
+
+```json
+{
+  "status": "success",
+  "order_id": 42,
+  "distance_meters": 12500,
+  "duration_seconds": 940,
+  "price": 98000,
+  "status_order": "pending"
+}
+```
+
+### Possible Errors
+
+| Status Code | Reason                                  |
+| ----------- | --------------------------------------- |
+| 400         | Validation error or invalid coordinates |
+| 401         | Unauthorized (missing or invalid token) |
+| 403         | Forbidden (role is not User)            |
 
 ---
 
@@ -144,32 +191,29 @@ project-root/
 ├── requirements.txt
 ├── LICENSE
 └── README.md
-
-
 ```
 
 ---
 
 ## Notes
-- This project focuses on backend logic and system design rather than UI/UX.
-- The codebase is structured to allow future expansion.
+
+* This project focuses on backend logic and system design rather than UI/UX.
+* The codebase is structured to allow future expansion.
 
 ---
 
 ## Future Improvements
-- Pricing and distance calculation service
-- caching system for list of orders 
-- using SQlite for development and PostgreSQL for production
-- Rate limiting and monitoring
+
+* Pricing and distance calculation service
+* Caching system for list of orders
+* Using SQLite for development and PostgreSQL for production
+* Rate limiting and monitoring
 
 ---
 
 ## Author
 
-- **GitHub**: [amir-hash19](https://amir-hash19.github.io/)
-- **Email**: amirhosein.hydri1381@gmail.com
+* **GitHub**: [amir-hash19](https://amir-hash19.github.io/)
+* **Email**: [amirhosein.hydri1381@gmail.com](mailto:amirhosein.hydri1381@gmail.com)
 
 Made with ❤️ by Amir
-
-
-
